@@ -15,9 +15,13 @@ class TodosController extends Controller
      */
     public function index()
     {
-        $todos = Todos::all();
-        $categorias = Categoria::all();
-        return view('home', ['todos' => $todos, 'categorias' => $categorias]);
+        $todos= Todos::all();
+   
+        return $todos;
+
+        // $todos = Todos::all();
+        // $categorias = Categoria::all();
+        // return view('home', ['todos' => $todos, 'categorias' => $categorias]);
     }
 
     /**
@@ -41,13 +45,25 @@ class TodosController extends Controller
         $request->validate([
             'homework2' => 'required|min:5'
         ]);
+
+        $new_todo = $request->get('todo');
+        if($request->get('id_todo') != null){
+            //buscamos el todo a editar
+            // $todo_full = show($request->get('id_todo'));
+            $todo_full = Todos::find($request->get('id_todo'));
+            $todo_full->homework = $request->homework2;
+            $todo_full->save();  //guardamos el todo
+            return redirect()->route('home')->with('success','Tarea Editada Correctamente');
+        }else{
         $todo = new Todos;
         $todo->homework =  $request->homework2;
-        $todo->categoria =2;
+        $todo->categoria =$request->categoria;
+       // dd($request);
         $todo->id_usario = Auth::user()->id;
         $todo->save();
         
             return redirect()->route('home')->with('success','Tarea Creada Correctamente');
+        }
     }
 
     /**
@@ -56,12 +72,14 @@ class TodosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function show($id)
-    // {
-    //     $todos= Todos::find($id);
+    public function show( $id)
+     {
+         $todos= Todos::with('categoria')->where('id', $id)
+         ->get();
+
    
-    //     return $todos;
-    // }
+         return $todos;
+     }
 
     /**
      * Show the form for editing the specified resource.
@@ -94,6 +112,9 @@ class TodosController extends Controller
      */
     public function destroy($id)
     {
-        //
+         $todo = Todos::find($id);
+         $todo->delete();
+
+        return "Tarea Eliminada Correctamente";
     }
 }

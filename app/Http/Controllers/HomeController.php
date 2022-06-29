@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Todos;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -24,7 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $todos = Todos::all();
+        $todos = Todos::with('user')->where('id_usario', Auth::user()->id )
+        ->get();
         $categorias = Categoria::all();
         return view('home', ['todos' => $todos, 'categorias' => $categorias]);
     }

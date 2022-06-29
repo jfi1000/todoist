@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->boolean('tipo_usuario')->default(0); // 0 = suscriptor && 1 = administrador
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -12,11 +12,11 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-public function show(){
+// public function show($id){
     
-    $todo= Todos::all();
+//     $todo= Todos::all();
    
-    return $todo;
-}
+//     return $todo;
+// }
 
 }

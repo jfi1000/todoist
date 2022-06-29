@@ -11,10 +11,17 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $categorias = Categoria::all();
-        return view('categorias.index', ['categorias' => $categorias]);
+        return view('categoria', ['categorias' => $categorias]);
+
+        // $categorias = Categoria::all();
+        // return view('categorias.index', ['categorias' => $categorias]);
     }
 
     /**
@@ -35,8 +42,39 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'categoria' => 'required|min:3'
+        ]);
+
+        // $new_categoria = $request->get('categoria');
+        if($request->get('id_todo') != null){
+            //buscamos el todo a editar
+            $categoria_edit = Categoria::find($request->get('id_categoria'));
+            $categoria_edit->name = $request->categoria;
+            $categoria_edit->save();  //guardamos el todo
+            return redirect()->route('categoria')->with('success','Categoria Editada Correctamente');
+        }else{
+        $categoria = new Categoria;
+        $categoria->name =  $request->categoria;
+        // $categoria->color =$request->color;
+       // dd($request);
+        // $todo->id_usario = Auth::user()->id;
+        $categoria->save();
+        
+            return redirect()->route('categoria.index')->with('success','Categoria Añadida Correctamente');
+        }
     }
+
+
+    public function show( $id)
+    {
+        $categoria= Categoria::find($id);
+        // dd($categoria);
+
+  
+        return $categoria;
+    }
+
 
     /**
      * Display the specified resource.
@@ -80,6 +118,10 @@ class CategoriaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $categoria = Categoria::find($id);
+        $categoria->delete();
+
+       return "Categoria Eliminada Correctamente";
+
     }
 }

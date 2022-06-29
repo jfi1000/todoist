@@ -17,4 +17,9 @@ class Todos extends Model
     {
         return $this->hasOne('App\Models\Categoria','id','categoria');
     }
+
+    public function user()
+    {
+        return $this->hasOne('App\Models\User','id','id_usario');
+    }
 }
