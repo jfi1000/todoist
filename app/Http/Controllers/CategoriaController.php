@@ -43,20 +43,21 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'categoria' => 'required|min:3'
+            'categoria' => 'required|min:3',
+            'color_code' => 'required|min:3'
         ]);
-
         // $new_categoria = $request->get('categoria');
-        if($request->get('id_todo') != null){
+        if($request->get('id_categoria') != null){
             //buscamos el todo a editar
             $categoria_edit = Categoria::find($request->get('id_categoria'));
             $categoria_edit->name = $request->categoria;
+            $categoria_edit->color =$request->color_code;
             $categoria_edit->save();  //guardamos el todo
-            return redirect()->route('categoria')->with('success','Categoria Editada Correctamente');
+            return redirect()->route('categoria.index')->with('success','Categoria Editada Correctamente');
         }else{
         $categoria = new Categoria;
         $categoria->name =  $request->categoria;
-        // $categoria->color =$request->color;
+        $categoria->color =$request->color_code;
        // dd($request);
         // $todo->id_usario = Auth::user()->id;
         $categoria->save();

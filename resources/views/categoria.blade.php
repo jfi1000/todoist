@@ -12,7 +12,10 @@
                                 @if (session('success'))
                                 <h6 class="alert alert-success">{{ session('success') }}</h6>
                                 @endif
-                                @error('homework2')
+                                @error('categoria')
+                                <h6 class="alert alert-danger">{{ $message }}</h6>
+                                @enderror
+                                @error('color_code')
                                 <h6 class="alert alert-danger">{{ $message }}</h6>
                                 @enderror
                                 <div class="form-group">
@@ -23,8 +26,8 @@
                                             <input type="text" id="id_categoria" name="id_categoria" value="" hidden >
                                         </div>
                                         <div class="col-4">    
-                                            <label for="exampleInputPassword1">Selecciona un color</label>
-                                            <input type="color">
+                                            <label for="exampleInputPassword1">Elige un color para la categoria</label>
+                                            <input type="color" id="color_code" name="color_code" value="#ffffff">
                                         </div>
                                     </div>
                                 </div>
@@ -48,6 +51,7 @@
                                 <tr>
                                 <th scope="row">{{ $categoria->id }}</th>
                                 <td>{{ $categoria->name }}</td>
+                                <td><input type="color"   value="{{ $categoria->color }}" disabled ></td>
                                 <td>
                                     <button type="button" class="btn btn-warning btn-sm" onclick="edit({{$categoria->id}})">Edit</button>
                                     <button type="button" class="btn btn-danger btn-sm" onclick="deleted({{$categoria->id}})">Delete</button>
@@ -76,7 +80,8 @@ async function fetchMoviesBadStatus() {
     //  $('#categoria').append("<option selected>"+data[0]['categoria']['name']+"</option>")  
     //   document.getElementById('categoria').value = data[0]['homework'];
       document.getElementById('categoria').value = data['name'];
-      document.getElementById('id_categoria').value = data[0]['id'];
+      document.getElementById('color_code').value = data['color'];
+      document.getElementById('id_categoria').value = data['id'];
       var buttom_edit = document.getElementById("button_edit");
       var buttom_submit = document.getElementById("buttom_submit");
       

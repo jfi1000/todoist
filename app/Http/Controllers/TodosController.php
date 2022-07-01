@@ -45,7 +45,6 @@ class TodosController extends Controller
         $request->validate([
             'homework2' => 'required|min:5'
         ]);
-
         $new_todo = $request->get('todo');
         if($request->get('id_todo') != null){
             //buscamos el todo a editar
