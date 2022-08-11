@@ -30,6 +30,8 @@ use App\Http\Controllers\CategoriaController;
  Route::get('/categoria/{id}', [App\Http\Controllers\CategoriaController::class,'destroy'])->name('categoria.destroy')->middleware('auth');
  Route::get('/categorias/{id}', [App\Http\Controllers\CategoriaController::class,'show'])->name('categoria.show')->middleware('auth');
 
+ Route::get('/prueba_react', [App\Http\Controllers\HomeController::class,'prueba'])->name('prueba');
+
 // Route::get('/', [App\Http\Controllers\TodosController::class, 'index'])->name('home');
 
 //  Route::get('/todos/{$id}', [TodosController::class, 'show'])->name('todos-show');

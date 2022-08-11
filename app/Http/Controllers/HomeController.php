@@ -30,4 +30,8 @@ class HomeController extends Controller
         $categorias = Categoria::all();
         return view('home', ['todos' => $todos, 'categorias' => $categorias]);
     }
+
+    public function prueba(){
+        return view('prueba');
+    }
 }
