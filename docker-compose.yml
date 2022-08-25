@@ -1,0 +1,51 @@
+version: '3'
+services:
+
+  # container app
+  app:
+    build:
+      args:
+        user: jf
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: img_practica2
+    container_name: contenedor_practica2
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 81:80
+    working_dir: /var/www/html/todoist
+    volumes:
+      - "./todoist:/var/www/html/todoist"
+      - "./config/000-default.conf:/etc/apache2/sites-available/000-default.conf"
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    networks:
+      red_docker:
+
+  # container bd
+  db:
+    image: mariadb:10.6
+    container_name: container-bd
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 3306:3306
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime"
+    # - "./data:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_ROOT_PASSWORD: passoword
+      SERVICE_TAGS: container-bd
+      SERVICE_NAME: mysql
+    networks:
+      red_docker:
+
+
+# config network
+networks:
+  red_docker:
+    external: true
